@@ -1,0 +1,56 @@
+syntax = "proto3";
+package blocksize.assignment;
+
+option go_package = "protoimport/assignment";
+
+
+service ApikeyService {
+  // AddApikey adds a new apikey to the user
+  rpc AddApikey (AddApikeyRequest) returns (AddApikeyResponse) {
+  }
+  // ListApikeys lists all currently added apikeys for the specified user
+  rpc ListApikeys (ListApikeysRequest) returns (ListApikeysResponse) {
+  }
+  //GetApikey requests full plaintext access to the specified apikey
+  rpc GetApikey (GetApikeyRequest) returns (GetApikeyResponse) {
+  }
+}
+
+// Apikey contains all the visible information about an added apikey
+message Apikey {
+  string apikey_id = 1; // For example, a random UUIDv4
+  string exchange = 2; // The name of the exchange that the apikey belongs to
+  string apikey_preview = 3; // The first five characters of the apikey
+}
+// ApikeyExtended contains the visible information about an apikey as well as
+// the private information (apikey&secret) about an added apikey
+message ApikeyExtended {
+  Apikey apikey_details = 1;
+  string apikey = 2; // The apikey in plaintext
+  string secret = 3; // The secret in plaintext
+}
+
+message AddApikeyRequest {
+  string user_id = 1; // For which user to add the apikey to
+  string exchange = 2; // The name of the exchange - every exchange may only be added once
+
+  string apikey = 3; // The apikey in plaintext
+  string secret = 4; // The secret in plaintext
+}
+message AddApikeyResponse {
+  string apikey_id = 1;
+}
+
+message ListApikeysRequest {
+  string user_id = 1;
+}
+message ListApikeysResponse {
+  repeated Apikey apikeys = 1;
+}
+
+message GetApikeyRequest {
+  string apikey_id = 1;
+}
+message GetApikeyResponse {
+  ApikeyExtended apikey = 1;
+}
