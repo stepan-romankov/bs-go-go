@@ -1,5 +1,8 @@
 ## This service require PostgreSQL database of version *9.5* or higher
 
+User keys and secrets are symmetrically encrypted so that optional "SECRET" environment variable can be provided (otherwise default one would be used).
+SECRET should be a random string of 16, 24 or 32 characters 
+
 ## You can "run.sh" shell script to execute full lifecycle build/test/run/cleanup
 
 ```shell
